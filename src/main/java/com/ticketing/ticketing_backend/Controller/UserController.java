@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,11 +56,13 @@ public class UserController {
         // Authenticate user in service
         String loginMessage = userService.login(loginRequest);
         if ("Login successful".equals(loginMessage)) {
+            User authenticatedUser = userService.getUserByUserEmail(loginRequest.getUserEmail());
             // Generate JWT token if login successful
             String token = JwtUtil.generateToken(loginRequest.getUserEmail()); // Use userEmail for token generation
             Map<String, String> response = new HashMap<>();
             response.put("token", token);
             response.put("email", loginRequest.getUserEmail());
+            response.put("role", authenticatedUser.getUserRole());
             return response;
         } else {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, loginMessage);
