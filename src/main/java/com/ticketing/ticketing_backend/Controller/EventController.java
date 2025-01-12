@@ -29,13 +29,8 @@ public class EventController {
         }
     }
     @GetMapping("/getEvent/{eventId}")
-    public ResponseEntity<?> getEventById(@PathVariable String eventId) {
-        try {
-            Event event = eventService.getEventById(eventId);
-            return new ResponseEntity<>(event, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+    public Event getEventById(@PathVariable String eventId) {
+        return eventService.getEventById(eventId);
     }
     @GetMapping("/getAll")
     public ResponseEntity<List<Event>> getAllEvents() {

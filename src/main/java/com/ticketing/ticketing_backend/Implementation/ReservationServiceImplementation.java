@@ -1,5 +1,6 @@
 package com.ticketing.ticketing_backend.Implementation;
 import com.ticketing.ticketing_backend.Model.Reservation;
+import com.ticketing.ticketing_backend.Model.User;
 import com.ticketing.ticketing_backend.Repository.ReservationRepository;
 import com.ticketing.ticketing_backend.Service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,18 @@ public class ReservationServiceImplementation implements ReservationService {
             return reservationRepository.save(reservation);
         }).orElseThrow(() -> new RuntimeException("Reservation not found with id " + reservationId));
     }
+
+    @Override
+    public Reservation updateReservationStatus(String reservationId) {
+        Optional<Reservation> optionalReservation = reservationRepository.findById(reservationId);
+        if (optionalReservation.isEmpty()) {
+            throw new RuntimeException("No user found with email: " + reservationId);
+        }
+        Reservation reservation = optionalReservation.get();
+        reservation.setStatus("Cancelled");
+        return reservationRepository.save(reservation);
+    }
+
     @Override
     public void deleteReservation(String reservationId) {
         reservationRepository.deleteById(reservationId);

@@ -120,7 +120,7 @@ public class UserServiceImplementation implements UserService {
             throw new RuntimeException("No user found with email: " + userEmail);
         }
         User user = optionalUser.get();
-        user.setPassword(newPassword); // Update password
+        user.setPassword(passwordEncoder.encode(newPassword));
         return userRepository.save(user);
     }
     @Override
@@ -134,6 +134,32 @@ public class UserServiceImplementation implements UserService {
         }
         return "Login successful";
     }
+
+    @Override
+    public User updateUser(String userId, User user) {
+        Optional<User> optionalExistingUser = userRepository.findById(userId);
+
+        if (!optionalExistingUser.isPresent()) {
+            System.out.println("User not found with "+user.getUserId());;
+        }
+        User existingUser = optionalExistingUser.get();
+
+        if (user.getUserEmail() != null && !user.getUserEmail().isEmpty()) {
+            existingUser.setUserEmail(user.getUserEmail());
+        }
+        if (user.getFirstName() != null && !user.getFirstName().isEmpty()) {
+            existingUser.setFirstName(user.getFirstName());
+        }
+        if (user.getLastName() != null && !user.getLastName().isEmpty()) {
+            existingUser.setLastName(user.getLastName());
+        }
+        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+            existingUser.setPassword(user.getPassword());
+        }
+        return userRepository.save(existingUser);
+    }
+
+
     @Override
     public String logout(HttpSession session) {
         session.invalidate();
