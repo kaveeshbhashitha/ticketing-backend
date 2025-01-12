@@ -51,11 +51,28 @@ public class EventServiceImplementation implements EventService {
         return eventRepository.findByEventVenue(venue);
     }
     @Override
-    public void updateEvent(String id, Event updatedEvent) {
+    public void updateEvent(String id, Event updatedEvent, MultipartFile imageFile) throws IOException {
         Event existingEvent = getEventById(id);
+
+        // Preserve the existing event ID
         updatedEvent.setEventId(existingEvent.getEventId());
+
+        // If a new image file is provided, update the image data
+        if (imageFile != null && !imageFile.isEmpty()) {
+            updatedEvent.setImageName(imageFile.getOriginalFilename());
+            updatedEvent.setContentType(imageFile.getContentType());
+            updatedEvent.setImageData(imageFile.getBytes());
+        } else {
+            // If no new image is provided, keep the old image data
+            updatedEvent.setImageName(existingEvent.getImageName());
+            updatedEvent.setContentType(existingEvent.getContentType());
+            updatedEvent.setImageData(existingEvent.getImageData());
+        }
+
+        // Save the updated event
         eventRepository.save(updatedEvent);
     }
+
     @Override
     public void deleteEvent(String id) {
         eventRepository.deleteById(id);

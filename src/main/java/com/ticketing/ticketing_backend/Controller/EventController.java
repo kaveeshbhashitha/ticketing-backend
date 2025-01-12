@@ -48,10 +48,15 @@ public class EventController {
     public ResponseEntity<List<Event>> getByEventVenue(@PathVariable String venue) {
         return ResponseEntity.ok(eventService.getByEventVenue(venue));
     }
-    @PutMapping("/update/{id}")
-    public ResponseEntity<String> updateEvent(@PathVariable String id, @RequestBody Event event) {
-        eventService.updateEvent(id, event);
-        return ResponseEntity.ok("Event updated successfully.");
+    @PutMapping("/update{id}")
+    public ResponseEntity<Event> updateEvent(@PathVariable("id") String eventId,
+                                             @RequestParam("event") String eventJson,
+                                             @RequestParam(value = "image", required = false) MultipartFile imageFile) throws IOException {
+        // Convert eventJson to Event object (you can use a library like Jackson to deserialize JSON)
+        Event updatedEvent = new ObjectMapper().readValue(eventJson, Event.class);
+
+        eventService.updateEvent(eventId, updatedEvent, imageFile);
+        return new ResponseEntity<>(updatedEvent, HttpStatus.OK);
     }
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteEvent(@PathVariable String id) {
