@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin("http://localhost:5173")
+@CrossOrigin("https://oficialticketing-frontend.netlify.app/AllEvents")
 @RequestMapping("/reservation")
 public class ReservationController {
     @Autowired

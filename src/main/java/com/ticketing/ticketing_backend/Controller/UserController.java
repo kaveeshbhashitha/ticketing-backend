@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@CrossOrigin("http://localhost:5173")
+@CrossOrigin("https://oficialticketing-frontend.netlify.app/AllEvents")
 @RequestMapping("/user")
 public class UserController {
     @Autowired
