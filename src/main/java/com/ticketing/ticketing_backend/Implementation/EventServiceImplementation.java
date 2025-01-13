@@ -1,12 +1,8 @@
 package com.ticketing.ticketing_backend.Implementation;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
 import com.ticketing.ticketing_backend.Model.Event;
 import com.ticketing.ticketing_backend.Repository.EventRepository;
 import com.ticketing.ticketing_backend.Service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.gridfs.GridFsOperations;
-import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
@@ -50,29 +46,30 @@ public class EventServiceImplementation implements EventService {
     public List<Event> getByEventVenue(String venue) {
         return eventRepository.findByEventVenue(venue);
     }
-    @Override
-    public void updateEvent(String id, Event updatedEvent, MultipartFile imageFile) throws IOException {
-        Event existingEvent = getEventById(id);
+    public void updateEvent(String id, String eventName, String eventDate, String startTime, String endTime,
+                            String eventVenue, Double oneTicketPrice, String description, MultipartFile image) throws IOException {
 
-        // Preserve the existing event ID
-        updatedEvent.setEventId(existingEvent.getEventId());
+        Optional<Event> eventOptional = eventRepository.findById(id);
+        if (eventOptional.isPresent()) {
+            Event event = eventOptional.get();
+            event.setEventName(eventName);
+            event.setEventDate(eventDate);
+            event.setStartTime(startTime);
+            event.setEndTime(endTime);
+            event.setEventVenue(eventVenue);
+            event.setOneTicketPrice(oneTicketPrice);
+            event.setDescription(description);
 
-        // If a new image file is provided, update the image data
-        if (imageFile != null && !imageFile.isEmpty()) {
-            updatedEvent.setImageName(imageFile.getOriginalFilename());
-            updatedEvent.setContentType(imageFile.getContentType());
-            updatedEvent.setImageData(imageFile.getBytes());
+            if (image != null && !image.isEmpty()) {
+                event.setImageData(image.getBytes());
+                event.setContentType(image.getContentType());
+            }
+
+            eventRepository.save(event);
         } else {
-            // If no new image is provided, keep the old image data
-            updatedEvent.setImageName(existingEvent.getImageName());
-            updatedEvent.setContentType(existingEvent.getContentType());
-            updatedEvent.setImageData(existingEvent.getImageData());
+            throw new IllegalArgumentException("Event not found with ID: " + id);
         }
-
-        // Save the updated event
-        eventRepository.save(updatedEvent);
     }
-
     @Override
     public void deleteEvent(String id) {
         eventRepository.deleteById(id);

@@ -48,19 +48,23 @@ public class EventController {
     public ResponseEntity<List<Event>> getByEventVenue(@PathVariable String venue) {
         return ResponseEntity.ok(eventService.getByEventVenue(venue));
     }
-    @PutMapping("/update{id}")
-    public ResponseEntity<Event> updateEvent(@PathVariable("id") String eventId,
-                                             @RequestParam("event") String eventJson,
-                                             @RequestParam(value = "image", required = false) MultipartFile imageFile) throws IOException {
-        // Convert eventJson to Event object (you can use a library like Jackson to deserialize JSON)
-        Event updatedEvent = new ObjectMapper().readValue(eventJson, Event.class);
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updateEvent(
+            @PathVariable String id,
+            @RequestParam("eventName") String eventName,
+            @RequestParam("eventDate") String eventDate,
+            @RequestParam("startTime") String startTime,
+            @RequestParam("endTime") String endTime,
+            @RequestParam("eventVenue") String eventVenue,
+            @RequestParam("oneTicketPrice") Double oneTicketPrice,
+            @RequestParam("description") String description,
+            @RequestParam(value = "image", required = false) MultipartFile image) {
 
-        eventService.updateEvent(eventId, updatedEvent, imageFile);
-        return new ResponseEntity<>(updatedEvent, HttpStatus.OK);
-    }
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteEvent(@PathVariable String id) {
-        eventService.deleteEvent(id);
-        return ResponseEntity.ok("Event deleted successfully.");
+        try {
+            eventService.updateEvent(id, eventName, eventDate, startTime, endTime, eventVenue, oneTicketPrice, description, image);
+            return ResponseEntity.ok("Event updated successfully!");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Failed to update event: " + e.getMessage());
+        }
     }
 }

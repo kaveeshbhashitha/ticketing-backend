@@ -12,6 +12,8 @@ public interface EventService {
     List<Event> getByEventName(String name);
     List<Event> getByEventDate(LocalDate date);
     List<Event> getByEventVenue(String venue);
-    void updateEvent(String id, Event updatedEvent, MultipartFile imageFile) throws IOException;
     void deleteEvent(String id);
-}
+    public void updateEvent(String id, String eventName, String eventDate, String startTime, String endTime,
+        String eventVenue, Double oneTicketPrice, String description, MultipartFile image) throws IOException;
+    }
+
