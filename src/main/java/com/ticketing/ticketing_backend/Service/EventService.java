@@ -15,5 +15,6 @@ public interface EventService {
     void deleteEvent(String id);
     public void updateEvent(String id, String eventName, String eventDate, String startTime, String endTime,
         String eventVenue, Double oneTicketPrice, String description, MultipartFile image) throws IOException;
+    boolean cancelEvent(String eventId);
     }
 

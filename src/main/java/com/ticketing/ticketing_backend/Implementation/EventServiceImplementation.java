@@ -75,4 +75,16 @@ public class EventServiceImplementation implements EventService {
         eventRepository.deleteById(id);
     }
 
+    @Override
+    public boolean cancelEvent(String eventId) {
+        Optional<Event> event = eventRepository.findById(eventId);
+        if (event.isPresent()) {
+            Event canceledEvent = event.get();
+            canceledEvent.setStatus("Cancelled"); // Assuming there's a 'status' field
+            eventRepository.save(canceledEvent);
+            return true;
+        }
+        return false;
+    }
+
 }

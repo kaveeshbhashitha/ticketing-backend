@@ -67,4 +67,19 @@ public class EventController {
             return ResponseEntity.badRequest().body("Failed to update event: " + e.getMessage());
         }
     }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteEvent(@PathVariable String id) {
+        eventService.deleteEvent(id);
+        return ResponseEntity.ok("Event deleted successfully.");
+    }
+
+    @PutMapping("/cancel/{eventId}")
+    public ResponseEntity<String> cancelEvent(@PathVariable String eventId) {
+        boolean isCancelled = eventService.cancelEvent(eventId);
+        if (isCancelled) {
+            return ResponseEntity.ok("Event has been canceled.");
+        } else {
+            return ResponseEntity.status(404).body("Event not found.");
+        }
+    }
 }
