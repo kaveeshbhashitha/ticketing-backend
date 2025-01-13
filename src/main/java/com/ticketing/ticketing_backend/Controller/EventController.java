@@ -82,4 +82,14 @@ public class EventController {
             return ResponseEntity.status(404).body("Event not found.");
         }
     }
+    @PutMapping("/reschedule/{eventId}")
+    public ResponseEntity<String> rescheduleEvent(@PathVariable String eventId) {
+        boolean isRescheduled = eventService.rescheduleEvent(eventId);
+        if (isRescheduled) {
+            return ResponseEntity.ok("Event has been reschedule.");
+        } else {
+            return ResponseEntity.status(404).body("Event not found.");
+        }
+    }
+
 }

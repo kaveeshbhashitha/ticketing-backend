@@ -87,4 +87,16 @@ public class EventServiceImplementation implements EventService {
         return false;
     }
 
+    @Override
+    public boolean rescheduleEvent(String eventId) {
+        Optional<Event> event = eventRepository.findById(eventId);
+        if (event.isPresent()) {
+            Event rescheduleEvent = event.get();
+            rescheduleEvent.setStatus("Active"); // Assuming there's a 'status' field
+            eventRepository.save(rescheduleEvent);
+            return true;
+        }
+        return false;
+    }
+
 }
