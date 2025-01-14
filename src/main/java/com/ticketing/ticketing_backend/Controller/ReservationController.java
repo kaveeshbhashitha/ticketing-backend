@@ -1,6 +1,5 @@
 package com.ticketing.ticketing_backend.Controller;
 import com.ticketing.ticketing_backend.Model.Reservation;
-import com.ticketing.ticketing_backend.Model.User;
 import com.ticketing.ticketing_backend.Service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
