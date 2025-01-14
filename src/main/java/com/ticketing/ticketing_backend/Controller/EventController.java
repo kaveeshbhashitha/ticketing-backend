@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@CrossOrigin("https://oficialticketing-frontend.netlify.app")
+@CrossOrigin(origins = {"https://oficialticketing-frontend.netlify.app", "http://localhost:5173"})
 @RequestMapping("/events")
 public class EventController {
     @Autowired
