@@ -1,6 +1,7 @@
-package com.entsite.ent_invest_backend.service;
-import com.entsite.ent_invest_backend.entity.User;
-import com.entsite.ent_invest_backend.repository.UserRepository;
+package com.ticketing.ticketing_backend.JWT;
+import com.ticketing.ticketing_backend.Dto.AuthenticationResponse;
+import com.ticketing.ticketing_backend.Model.User;
+import com.ticketing.ticketing_backend.Repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -9,6 +10,7 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
@@ -57,26 +59,30 @@ public class JwtService {
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
-    public String generateToken(String email) {
+    public AuthenticationResponse generateToken(String email) {
         Map<String, Object> claims = new HashMap<>();
         User user = userRepository.findByUserEmail(email).orElseThrow(() ->
                 new UsernameNotFoundException("User with email " + email + " not found"));
 
-        // Add additional user claims to the token
+        // Add additional claims to the token
         claims.put("userId", user.getUserId());
         claims.put("firstName", user.getFirstName());
         claims.put("lastName", user.getLastName());
         claims.put("role", user.getUserRole());
 
-        return createToken(claims, email);
+        String token = createToken(claims, email);
+
+        // Return both token and user details
+        return new AuthenticationResponse(token, user.getUserId(), user.getFirstName(), user.getLastName(), user.getUserRole(), user.getUserEmail());
     }
+
 
     private String createToken(Map<String, Object> claims, String email) {
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(email)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 1)) // Set to 10 minutes
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 10)) // Set to 10 minutes
                 .signWith(getSignKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
