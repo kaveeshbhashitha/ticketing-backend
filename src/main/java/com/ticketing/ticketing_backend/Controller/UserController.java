@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@CrossOrigin("http://localhost:5173")
+@CrossOrigin(origins = {"https://oficialticketing-frontend.netlify.app", "http://localhost:5173"})
 @RequestMapping("/user")
 public class UserController {
     @Autowired
@@ -92,5 +92,19 @@ public class UserController {
     @PostMapping("/update-password")
     public User updatePassword(@RequestParam String userEmail, @RequestParam String newPassword) {
         return userService.updatePassword(userEmail, newPassword);
+    }
+    @PutMapping("/updateUser/{userId}")
+    public ResponseEntity<User> updateUser(
+            @PathVariable("userId") String userId,
+            @RequestBody User user) {
+
+        try {
+            User updatedUser = userService.updateUser(userId, user);
+            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+        } catch (Exception e) {
+            // Log the exception (optional)
+            System.err.println("Error updating user: " + e.getMessage());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

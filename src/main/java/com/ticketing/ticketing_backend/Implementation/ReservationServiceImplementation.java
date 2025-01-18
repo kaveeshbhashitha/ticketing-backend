@@ -45,6 +45,18 @@ public class ReservationServiceImplementation implements ReservationService {
             return reservationRepository.save(reservation);
         }).orElseThrow(() -> new RuntimeException("Reservation not found with id " + reservationId));
     }
+
+    @Override
+    public Reservation updateReservationStatus(String reservationId) {
+        Optional<Reservation> optionalReservation = reservationRepository.findById(reservationId);
+        if (optionalReservation.isEmpty()) {
+            throw new RuntimeException("No user found with email: " + reservationId);
+        }
+        Reservation reservation = optionalReservation.get();
+        reservation.setStatus("Cancelled");
+        return reservationRepository.save(reservation);
+    }
+
     @Override
     public void deleteReservation(String reservationId) {
         reservationRepository.deleteById(reservationId);

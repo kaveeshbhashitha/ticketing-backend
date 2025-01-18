@@ -8,6 +8,7 @@ import java.time.LocalTime;
 public class Email {
     @Id
     private String emailId;
+    private String name = "Automatic Reply";
     private String toEmail;
     private String subject;
     private String body;
@@ -69,5 +70,13 @@ public class Email {
 
     public void setTimeAdded(LocalTime timeAdded) {
         this.timeAdded = timeAdded;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
