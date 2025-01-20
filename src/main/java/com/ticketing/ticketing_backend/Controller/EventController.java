@@ -13,8 +13,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@CrossOrigin("http://localhost:5173")
-@RequestMapping("/api/events")
+@CrossOrigin(origins = {"https://oficialticketing-frontend.netlify.app", "http://localhost:5173"})
+@RequestMapping("/events")
 public class EventController {
     @Autowired
     private EventService eventService;
@@ -31,8 +31,8 @@ public class EventController {
         }
     }
     @GetMapping("/getEvent/{eventId}")
-    public Event getEventById(@PathVariable String eventId) {
-        return eventService.getEventById(eventId);
+    public ResponseEntity<Event> getEventById(@PathVariable String eventId) {
+        return ResponseEntity.ok(eventService.getEventById(eventId));
     }
     @GetMapping("/getAll")
     public ResponseEntity<List<Event>> getAllEvents() {
@@ -87,4 +87,14 @@ public class EventController {
             return ResponseEntity.status(404).body("Event not found.");
         }
     }
+    @PutMapping("/reschedule/{eventId}")
+    public ResponseEntity<String> rescheduleEvent(@PathVariable String eventId) {
+        boolean isRescheduled = eventService.rescheduleEvent(eventId);
+        if (isRescheduled) {
+            return ResponseEntity.ok("Event has been reschedule.");
+        } else {
+            return ResponseEntity.status(404).body("Event not found.");
+        }
+    }
+
 }

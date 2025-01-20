@@ -1,6 +1,5 @@
 package com.ticketing.ticketing_backend.Controller;
 import com.ticketing.ticketing_backend.Model.Reservation;
-import com.ticketing.ticketing_backend.Model.User;
 import com.ticketing.ticketing_backend.Service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,8 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin("http://localhost:5173")
-@RequestMapping("/api/reservation")
+@CrossOrigin(origins = {"https://oficialticketing-frontend.netlify.app", "http://localhost:5173"})
+@RequestMapping("/reservation")
 public class ReservationController {
     @Autowired
     private ReservationService reservationService;

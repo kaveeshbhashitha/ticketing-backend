@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin("http://localhost:5173")
-@RequestMapping("/api/payment")
+@CrossOrigin(origins = {"https://oficialticketing-frontend.netlify.app", "http://localhost:5173"})
+@RequestMapping("/payment")
 public class PaymentController {
     @Autowired
     private PaymentServiceImplementation paymentService;

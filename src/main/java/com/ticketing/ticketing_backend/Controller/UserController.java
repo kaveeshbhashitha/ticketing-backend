@@ -20,8 +20,8 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin("http://localhost:5173")
-@RequestMapping("/api/user")
+@CrossOrigin(origins = {"https://oficialticketing-frontend.netlify.app", "http://localhost:5173"})
+@RequestMapping("/user")
 public class UserController {
     @Autowired
     private UserService userService;
