@@ -27,6 +27,7 @@ public class Event {
     private String theaterTime2;
     private String theaterIsFor;
     private String status;
+    private String videoId;
     private LocalDate dateAdded = LocalDate.now();
     private LocalTime timeAdded = LocalTime.now();
 
@@ -193,4 +194,12 @@ public class Event {
     public void setStatus(String status) {
         this.status = status;
     }
+    public String getVideoId() {
+        return videoId;
+    }
+    public String setVideoId(String videoId) {
+        return this.videoId= videoId;
+    }
+
+    
 }
