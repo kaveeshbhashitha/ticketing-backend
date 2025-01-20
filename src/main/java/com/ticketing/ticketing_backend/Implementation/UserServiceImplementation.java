@@ -35,7 +35,7 @@ public class UserServiceImplementation implements UserService {
                 .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
     }
     @Override
-    public User getUserByUserEmail(String userEmail) {
+    public Optional<User> getUserByUserEmail(String userEmail) {
         return userRepository.findByUserEmail(userEmail);
     }
     @Override
@@ -49,7 +49,7 @@ public class UserServiceImplementation implements UserService {
     @Override
     public String sendRecoveryCode(String userEmail) {
         // Find user by email
-        Optional<User> optionalUser = Optional.ofNullable(userRepository.findByUserEmail(userEmail));
+        Optional<User> optionalUser = userRepository.findByUserEmail(userEmail);
         if (optionalUser.isEmpty()) {
             throw new RuntimeException("No user found with email: " + userEmail);
         }
@@ -115,24 +115,13 @@ public class UserServiceImplementation implements UserService {
     }
     @Override
     public User updatePassword(String userEmail, String newPassword) {
-        Optional<User> optionalUser = Optional.ofNullable(userRepository.findByUserEmail(userEmail));
+        Optional<User> optionalUser = userRepository.findByUserEmail(userEmail);
         if (optionalUser.isEmpty()) {
             throw new RuntimeException("No user found with email: " + userEmail);
         }
         User user = optionalUser.get();
         user.setPassword(passwordEncoder.encode(newPassword));
         return userRepository.save(user);
-    }
-    @Override
-    public String login(User loginRequest) {
-        User user = userRepository.findByUserEmail(loginRequest.getUserEmail());
-        if (user == null) {
-            return "User not found";
-        }
-        if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
-            return "Invalid username or password"; // Invalid credentials
-        }
-        return "Login successful";
     }
 
     @Override
@@ -167,7 +156,7 @@ public class UserServiceImplementation implements UserService {
     }
     @Override
     public String register(User user) {
-        if (userRepository.findByUserEmail(user.getUserEmail()) != null) {
+        if (userRepository.findByUserEmail(user.getUserEmail()).isPresent()) {
             return "User already registered as a user";
         }
         // Hash the password

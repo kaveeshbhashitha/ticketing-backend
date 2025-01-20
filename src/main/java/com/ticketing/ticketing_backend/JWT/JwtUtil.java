@@ -1,4 +1,4 @@
-package com.ticketing.ticketing_backend.Util;
+package com.ticketing.ticketing_backend.JWT;
 import org.springframework.stereotype.Component;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;

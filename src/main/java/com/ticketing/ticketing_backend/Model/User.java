@@ -1,9 +1,15 @@
 package com.ticketing.ticketing_backend.Model;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Document(collection = "user")
 public class User {
     @Id
@@ -12,7 +18,7 @@ public class User {
     private String firstName;
     private String lastName;
     private String password;
-    private String userRole = "User";
+    private String userRole = "USER";
     private LocalDate dateRegistered = LocalDate.now();
     private LocalTime timeRegistered = LocalTime.now();
 
