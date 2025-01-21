@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@CrossOrigin("http://localhost:5173")
+@CrossOrigin(origins = {"https://oficialticketing-frontend.netlify.app", "http://localhost:5173"})
 @RequestMapping("/events")
 public class EventController {
     @Autowired
@@ -29,13 +29,8 @@ public class EventController {
         }
     }
     @GetMapping("/getEvent/{eventId}")
-    public ResponseEntity<?> getEventById(@PathVariable String eventId) {
-        try {
-            Event event = eventService.getEventById(eventId);
-            return new ResponseEntity<>(event, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<Event> getEventById(@PathVariable String eventId) {
+        return ResponseEntity.ok(eventService.getEventById(eventId));
     }
     @GetMapping("/getAll")
     public ResponseEntity<List<Event>> getAllEvents() {
@@ -54,13 +49,47 @@ public class EventController {
         return ResponseEntity.ok(eventService.getByEventVenue(venue));
     }
     @PutMapping("/update/{id}")
-    public ResponseEntity<String> updateEvent(@PathVariable String id, @RequestBody Event event) {
-        eventService.updateEvent(id, event);
-        return ResponseEntity.ok("Event updated successfully.");
+    public ResponseEntity<String> updateEvent(
+            @PathVariable String id,
+            @RequestParam("eventName") String eventName,
+            @RequestParam("eventDate") String eventDate,
+            @RequestParam("startTime") String startTime,
+            @RequestParam("endTime") String endTime,
+            @RequestParam("eventVenue") String eventVenue,
+            @RequestParam("oneTicketPrice") Double oneTicketPrice,
+            @RequestParam("description") String description,
+            @RequestParam(value = "image", required = false) MultipartFile image) {
+
+        try {
+            eventService.updateEvent(id, eventName, eventDate, startTime, endTime, eventVenue, oneTicketPrice, description, image);
+            return ResponseEntity.ok("Event updated successfully!");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Failed to update event: " + e.getMessage());
+        }
     }
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteEvent(@PathVariable String id) {
         eventService.deleteEvent(id);
         return ResponseEntity.ok("Event deleted successfully.");
     }
+
+    @PutMapping("/cancel/{eventId}")
+    public ResponseEntity<String> cancelEvent(@PathVariable String eventId) {
+        boolean isCancelled = eventService.cancelEvent(eventId);
+        if (isCancelled) {
+            return ResponseEntity.ok("Event has been canceled.");
+        } else {
+            return ResponseEntity.status(404).body("Event not found.");
+        }
+    }
+    @PutMapping("/reschedule/{eventId}")
+    public ResponseEntity<String> rescheduleEvent(@PathVariable String eventId) {
+        boolean isRescheduled = eventService.rescheduleEvent(eventId);
+        if (isRescheduled) {
+            return ResponseEntity.ok("Event has been reschedule.");
+        } else {
+            return ResponseEntity.status(404).body("Event not found.");
+        }
+    }
+
 }

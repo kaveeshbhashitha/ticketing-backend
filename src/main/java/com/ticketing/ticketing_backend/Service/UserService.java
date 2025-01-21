@@ -17,4 +17,5 @@ public interface UserService {
     public String register(User user);
     public String logout(HttpSession session);
     public String login(User loginRequest);
+    public User updateUser(String userId, User user);
 }

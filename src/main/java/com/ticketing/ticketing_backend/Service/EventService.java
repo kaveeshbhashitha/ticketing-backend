@@ -1,6 +1,5 @@
 package com.ticketing.ticketing_backend.Service;
 import com.ticketing.ticketing_backend.Model.Event;
-import com.ticketing.ticketing_backend.Model.LoadFile;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -13,6 +12,10 @@ public interface EventService {
     List<Event> getByEventName(String name);
     List<Event> getByEventDate(LocalDate date);
     List<Event> getByEventVenue(String venue);
-    void updateEvent(String id, Event updatedEvent);
     void deleteEvent(String id);
-}
+    public void updateEvent(String id, String eventName, String eventDate, String startTime, String endTime,
+        String eventVenue, Double oneTicketPrice, String description, MultipartFile image) throws IOException;
+    boolean cancelEvent(String eventId);
+    boolean rescheduleEvent(String eventId);
+    }
+

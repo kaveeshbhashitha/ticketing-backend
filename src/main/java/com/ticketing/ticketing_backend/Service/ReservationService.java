@@ -9,6 +9,7 @@ public interface ReservationService {
     Optional<Reservation> getReservationById(String reservationId);
     Reservation addReservation(Reservation reservation);
     Reservation updateReservation(String reservationId, Reservation reservationDetail);
+    Reservation updateReservationStatus(String reservationId);
     void deleteReservation(String reservationId);
     double getTotalChargeByCurrentDate();
     double getTotalCharge();

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin("http://localhost:5173")
+@CrossOrigin(origins = {"https://oficialticketing-frontend.netlify.app", "http://localhost:5173"})
 @RequestMapping("/reservation")
 public class ReservationController {
     @Autowired
@@ -56,5 +56,9 @@ public class ReservationController {
     @GetMapping("/totalTickets")
     public ResponseEntity<Integer> getTotalTickets() {
         return ResponseEntity.ok(reservationService.getTotalTickets());
+    }
+    @PostMapping("/cancelReservation")
+    public Reservation cancelReservation(@RequestParam String reservationId) {
+        return reservationService.updateReservationStatus(reservationId);
     }
 }
