@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = {"https://oficialticketing-frontend.netlify.app", "http://localhost:5173"})
-@RequestMapping("/events")
+@RequestMapping("/api/events")
 public class EventController {
     @Autowired
     private EventService eventService;

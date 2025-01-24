@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = {"https://oficialticketing-frontend.netlify.app", "http://localhost:5173"})
-@RequestMapping("/notification")
+@RequestMapping("/api/notification")
 public class EmailController {
     @Autowired
     private EmailServiceImplementation emailServiceImplementation;
