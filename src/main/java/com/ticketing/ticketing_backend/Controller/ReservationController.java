@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = {"https://oficialticketing-frontend.netlify.app", "http://localhost:5173"})
-@RequestMapping("/reservation")
+@RequestMapping("/api/reservation")
 public class ReservationController {
     @Autowired
     private ReservationService reservationService;

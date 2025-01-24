@@ -33,10 +33,10 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()) // Disable CSRF protection
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/user/register", "/api/user/login", "/api/user/logout").permitAll() // Public endpoints
-                        .requestMatchers("/api/events/getAll").permitAll() // Public endpoints
+                        .requestMatchers("/api/user/register", "/api/user/login", "/api/user/logout", "/api/user/**").permitAll() // Public endpoints
+                        //.requestMatchers("/api/events/getAll").permitAll() // Public endpoints
                         .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll() // Allow Swagger UI and API docs access
-                        .requestMatchers("/api/**").authenticated() // Protected user endpoints
+                        .requestMatchers("/api/notification/**", "/api/events/**", "/api/payment/**", "/api/reservation/**").authenticated() // Protected user endpoints
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Stateless session management
