@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = {"https://oficialticketing-frontend.netlify.app", "http://localhost:5173"})
+@CrossOrigin(origins = {"https://oficialticketing-frontend.netlify.app", "http://localhost:5173","https://ticketing-frontend-ruddy.vercel.app"})
 @RequestMapping("/api/user")
 public class UserController {
     @Autowired
