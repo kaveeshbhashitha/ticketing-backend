@@ -14,7 +14,7 @@ public interface EventService {
     List<Event> getByEventVenue(String venue);
     void deleteEvent(String id);
     public void updateEvent(String id, String eventName, String eventDate, String startTime, String endTime,
-        String eventVenue, Double oneTicketPrice, String description, MultipartFile image) throws IOException;
+        String eventVenue, Double oneTicketPrice, String description,String videoId, MultipartFile image) throws IOException;
     boolean cancelEvent(String eventId);
     boolean rescheduleEvent(String eventId);
     }

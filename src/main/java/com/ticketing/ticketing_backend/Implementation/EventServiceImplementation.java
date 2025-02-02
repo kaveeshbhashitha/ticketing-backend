@@ -47,7 +47,7 @@ public class EventServiceImplementation implements EventService {
         return eventRepository.findByEventVenue(venue);
     }
     public void updateEvent(String id, String eventName, String eventDate, String startTime, String endTime,
-                            String eventVenue, Double oneTicketPrice, String description, MultipartFile image) throws IOException {
+                            String eventVenue, Double oneTicketPrice, String description,String videoId, MultipartFile image) throws IOException {
 
         Optional<Event> eventOptional = eventRepository.findById(id);
         if (eventOptional.isPresent()) {
@@ -59,6 +59,7 @@ public class EventServiceImplementation implements EventService {
             event.setEventVenue(eventVenue);
             event.setOneTicketPrice(oneTicketPrice);
             event.setDescription(description);
+            event.setVideoId(videoId);
 
             if (image != null && !image.isEmpty()) {
                 event.setImageData(image.getBytes());

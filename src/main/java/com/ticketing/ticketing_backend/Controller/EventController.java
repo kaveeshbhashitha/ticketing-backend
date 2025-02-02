@@ -13,7 +13,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = {"https://oficialticketing-frontend.netlify.app", "http://localhost:5173"})
+@CrossOrigin(origins = {"https://oficialticketing-frontend.netlify.app", "http://localhost:5173","https://ticketing-frontend-ruddy.vercel.app"})
 @RequestMapping("/api/events")
 public class EventController {
     @Autowired
@@ -61,10 +61,11 @@ public class EventController {
             @RequestParam("eventVenue") String eventVenue,
             @RequestParam("oneTicketPrice") Double oneTicketPrice,
             @RequestParam("description") String description,
+            @RequestParam("videoId") String videoId,
             @RequestParam(value = "image", required = false) MultipartFile image) {
 
         try {
-            eventService.updateEvent(id, eventName, eventDate, startTime, endTime, eventVenue, oneTicketPrice, description, image);
+            eventService.updateEvent(id, eventName, eventDate, startTime, endTime, eventVenue, oneTicketPrice, description, videoId, image);
             return ResponseEntity.ok("Event updated successfully!");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Failed to update event: " + e.getMessage());
