@@ -40,10 +40,10 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // Disable CSRF protection
                 .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(
-                        "/api/user/register", "/api/user/login", "/api/user/logout", "/api/user/**", // Public endpoints
+                        "/api/user/register", "/api/user/login", "/api/user/logout", "/api/user/**",// Public endpoints
                         "/api/events/getAll","/api/events/getEvent/{eventId}", // Public endpoints
                        "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**","/api/events/addEvent",// Allow Swagger UI and API docs access
-                       "/api/notification/**", "/api/events/**", "/api/payment/**", "/api/reservation/**" // Protected user endpoints
+                       "/api/notification/addNotification", "/api/events/**", "/api/payment/**", "/api/reservation/**" // Protected user endpoints
                 )
                 .permitAll().anyRequest().authenticated()).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
             .authenticationProvider(authenticationProvider())
