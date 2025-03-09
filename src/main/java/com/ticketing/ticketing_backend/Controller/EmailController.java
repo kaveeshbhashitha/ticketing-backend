@@ -26,7 +26,6 @@ public class EmailController {
         return emailServiceImplementation.getEmailById(emailId);
     }
     @PostMapping("/addNotification")
-    @PreAuthorize("hasAuthority('ROLE_USER')")
     public Email addEmail(@RequestBody Email email) {
         return emailServiceImplementation.addEmail(email);
     }
